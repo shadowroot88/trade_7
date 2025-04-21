@@ -1,32 +1,10 @@
 services:
   - type: web
     name: freqtrade
-    env: python
+    env: docker
     plan: free
-    buildCommand: |
-      apt-get update
-      apt-get install -y python3-pip python3-venv build-essential libta-lib0 libta-lib0-dev wget git
-      
-      # Instalacja TA-Lib ze źródeł
-      cd /tmp
-      wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
-      tar -xzf ta-lib-0.4.0-src.tar.gz
-      cd ta-lib
-      ./configure --prefix=/usr
-      make
-      make install
-      ldconfig
-      
-      # Tworzenie linków symbolicznych dla TA-Lib
-      ln -sf /usr/lib/libta_lib.so /usr/lib/libta-lib.so
-      ln -sf /usr/lib/libta_lib.a /usr/lib/libta-lib.a
-      
-      # Instalacja FreqTrade i zależności
-      python3 -m pip install --upgrade pip
-      python3 -m pip install numpy
-      python3 -m pip install --global-option=build_ext --global-option="-I/usr/include" --global-option="-L/usr/lib" ta-lib
-      python3 -m pip install freqtrade
-      bash create.sh
+    dockerfilePath: Dockerfile
+    buildCommand: ""
     startCommand: bash start.sh
     envVars:
       - key: PYTHONUNBUFFERED
@@ -49,9 +27,3 @@ services:
         value: "8080"
       - key: FREQTRADE__API_SERVER__VERBOSITY
         value: "info"
-    systemDependencies:
-      - build-essential
-      - libatlas-base-dev
-      - libffi-dev
-      - curl
-      - wget
