@@ -16,28 +16,29 @@ services:
       make
       make install
       
-      # Tworzenie linków symbolicznych dla nagłówków i bibliotek
+      # Bardziej szczegółowe tworzenie linków dla nagłówków TA-Lib
       find /usr -name "libta_lib*"
       
-      # Tworzenie linków, żeby Python wrapper mógł znaleźć bibliotekę
-      ln -sf /usr/lib/libta_lib.so /usr/lib/libta-lib.so
-      ln -sf /usr/lib/libta_lib.a /usr/lib/libta-lib.a
-      
-      # Tworzenie linków dla plików nagłówkowych
+      # Tworzenie katalogu ta-lib w ścieżce include
       mkdir -p /usr/include/ta-lib
-      ln -sf /usr/include/ta_abstract.h /usr/include/ta-lib/
-      ln -sf /usr/include/ta_common.h /usr/include/ta-lib/
-      ln -sf /usr/include/ta_func.h /usr/include/ta-lib/
-      ln -sf /usr/include/ta_defs.h /usr/include/ta-lib/
       
-      # Ustawienie zmiennych środowiskowych do budowania
+      # Kopiowanie wszystkich plików nagłówkowych zamiast tworzenia linków
+      cp /usr/include/ta_*.h /usr/include/ta-lib/
+      
+      # Ustawienie dodatkowych zmiennych środowiskowych dla kompilacji
       export TA_INCLUDE_PATH=/usr/include
       export TA_LIBRARY_PATH=/usr/lib
+      export CFLAGS="-I/usr/include/ta-lib -I/usr/include"
+      export LDFLAGS="-L/usr/lib"
       
       # Instalacja FreqTrade i zależności
       python -m pip install --upgrade pip
       python -m pip install numpy
-      python -m pip install --global-option=build_ext --global-option="-I/usr/include/" --global-option="-L/usr/lib/" ta-lib
+      
+      # Instalacja TA-Lib Python z pełną specyfikacją ścieżek
+      python -m pip install --global-option=build_ext --global-option="-I/usr/include/ta-lib" --global-option="-I/usr/include" --global-option="-L/usr/lib" ta-lib
+      
+      # Instalacja pozostałych zależności
       python -m pip install freqtrade
       bash create.sh
     startCommand: bash start.sh
