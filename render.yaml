@@ -21,6 +21,17 @@ services:
         value: "admin"
       - key: FREQTRADE__API_SERVER__PASSWORD
         value: "admin"
+      - key: FREQTRADE__API_SERVER__LISTEN_IP_ADDRESS
+        value: "0.0.0.0"
+      - key: FREQTRADE__API_SERVER__PORT
+        value: "8080"
+      - key: PORT
+        value: "8080"
+      - key: FREQTRADE__API_SERVER__VERBOSITY
+        value: "info"
     systemDependencies:
       - build-essential  # Dla gcc, make itp.
       - libatlas-base-dev  # Często wymagane przez TA-Lib
+      - libffi-dev  # Dla niektórych zależności Pythona
+      - curl  # Dla pobierania danych
+      - wget  # Dla pobierania plików
