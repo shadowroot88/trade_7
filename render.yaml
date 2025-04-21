@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: freqtrade
+    env: python
+    plan: free
+    buildCommand: |
+      apt-get update
+      apt-get install -y python3-pip python3-venv build-essential libta-lib0 libta-lib0-dev ta-lib git
+      bash create.sh
+    startCommand: bash start.sh
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: FREQTRADE__EXCHANGE__KEY
+        value: your_key
+      - key: FREQTRADE__EXCHANGE__SECRET
+        value: your_secret
+      - key: FREQTRADE__API_SERVER__ENABLED
+        value: "true"
+      - key: FREQTRADE__API_SERVER__USERNAME
+        value: "admin"
+      - key: FREQTRADE__API_SERVER__PASSWORD
+        value: "admin"
+    systemDependencies:
+      - build-essential  # Dla gcc, make itp.
+      - libatlas-base-dev  # Często wymagane przez TA-Lib

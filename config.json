@@ -1,0 +1,61 @@
+{
+    "dry_run": true,
+    "exchange": {
+      "name": "binance",
+      "key": "${FREQTRADE__EXCHANGE__KEY}",
+      "secret": "${FREQTRADE__EXCHANGE__SECRET}",
+      "ccxt_config": {},
+      "ccxt_async_config": {},
+      "pair_whitelist": ["BTC/USDC"],
+      "pair_blacklist": ["BNB/USDC"]
+    },
+    "pairlists": [
+      {
+        "method": "StaticPairList"
+      }
+    ],
+    "stake_currency": "USDC",
+    "stake_amount": "unlimited",
+    "fiat_display_currency": "USD",
+    "timeframe": "5m",
+    "dataformat_ohlcv": "json",
+    "dry_run_wallet": 1000,
+    "cancel_open_orders_on_exit": false,
+    "unfilledtimeout": {
+      "entry": 10,
+      "exit": 10,
+      "exit_timeout_count": 0,
+      "unit": "minutes"
+    },
+    "entry_pricing": {
+      "price_side": "ask",
+      "use_order_book": true,
+      "order_book_top": 1,
+      "check_depth_of_market": {
+        "enabled": false,
+        "bids_to_ask_delta": 1
+      }
+    },
+    "exit_pricing": {
+      "price_side": "bid",
+      "use_order_book": true,
+      "order_book_top": 1
+    },
+    "api_server": {
+      "enabled": true,
+      "listen_ip_address": "0.0.0.0",
+      "listen_port": 8080,
+      "verbosity": "error",
+      "enable_openapi": true,
+      "jwt_secret_key": "supersekretnyklucz",
+      "CORS_origins": [],
+      "username": "${FREQTRADE__API_SERVER__USERNAME}",
+      "password": "${FREQTRADE__API_SERVER__PASSWORD}"
+    },
+    "websocket": {
+      "enabled": false
+    },
+    "loglevel": "INFO",
+    "strategy": "SampleStrategy",
+    "strategy_path": "user_data/strategies"
+  }
